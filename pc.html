@@ -17,28 +17,24 @@
             color: #fff;
         }
 
-        /* Background com silhuetas de espiões */
-        .spy-background {
+        .binary-background {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://i.imgur.com/4zLZQzO.png'); /* Imagem com silhuetas de espiões */
-            background-repeat: no-repeat;
-            background-size: cover;
-            opacity: 0.2; /* Leve transparência para não sobrecarregar o conteúdo */
+            background: url('https://i.imgur.com/1sBO9Rh.png') repeat;
+            opacity: 0.1;
             z-index: -1;
-            animation: spyMovement 5s ease-in-out infinite;
+            animation: scrollBinary 1s linear infinite;
         }
 
-        /* Animação para movimento suave das silhuetas */
-        @keyframes spyMovement {
-            0% {
-                background-position: 0% 0%;
+        @keyframes scrollBinary {
+            from {
+                transform: translateY(0);
             }
-            100% {
-                background-position: 100% 100%;
+            to {
+                transform: translateY(100%);
             }
         }
 
@@ -146,7 +142,7 @@
     </style>
 </head>
 <body>
-    <div class="spy-background"></div>
+    <div class="binary-background"></div>
     <div class="container">
         <h1>Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
