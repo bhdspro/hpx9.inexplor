@@ -1,254 +1,29 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espião de Produtos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Canva+Sans&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Canva Sans', sans-serif;
-            background: linear-gradient(45deg, #6200ea, #3700b3, #018786);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-            overflow: hidden;
-        }
+<script>
+  // Função para identificar o tipo de dispositivo com base no User-Agent
+  function getDeviceType() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    // Verificações avançadas para dispositivos móveis
+    if (/android/i.test(userAgent)) {
+      return 'mobile';
+    }
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return 'mobile';
+    }
+    if (/Windows Phone|webOS|BlackBerry|Opera Mini|IEMobile|Mobile/i.test(userAgent)) {
+      return 'mobile';
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+    // Verificação para desktops ou outros dispositivos
+    return 'desktop';
+  }
 
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            animation: fadeIn 1s ease-out;
-            position: relative;
-        }
+  // Redirecionamento baseado no tipo de dispositivo
+  var deviceType = getDeviceType();
 
-        h1 {
-            font-size: 24px;
-            color: #333;
-            animation: fadeIn 2s ease-out;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            border-radius: 25px;
-            border: 2px solid #ccc;
-            width: 80%;
-            font-size: 16px;
-            transition: border 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        input[type="text"]:focus {
-            border-color: #6200ea;
-            outline: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .whatsapp-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #6200ea;
-            color: white;
-            border: none;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s ease;
-            font-size: 20px;
-            margin-left: 10px;
-        }
-
-        .whatsapp-button:hover {
-            background-color: #3700b3;
-            transform: scale(1.1);
-        }
-
-        .whatsapp-button i {
-            font-size: 30px;
-        }
-
-        .button-group {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .button-group a {
-            text-decoration: none;
-            width: 48%;
-        }
-
-        .button {
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            background-color: #6200ea;
-            color: white;
-            border: none;
-            transition: background-color 0.3s, transform 0.3s ease;
-            display: inline-block;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .button:hover {
-            background-color: #3700b3;
-            transform: scale(1.05);
-        }
-
-        .footer-button {
-            display: inline-block;
-            width: 48%;
-        }
-
-        .footer-button:first-child {
-            margin-right: 10px;
-        }
-
-        .smiley {
-            position: absolute;
-            font-size: 30px;
-            color: yellow;
-            animation: drop 1s infinite;
-            pointer-events: none;
-        }
-
-        /* Adiciona animação de queda para os emoticons */
-        @keyframes drop {
-            0% { transform: translateY(-50px); opacity: 1; }
-            100% { transform: translateY(100px); opacity: 0; }
-        }
-
-        /* Estilo da notificação no canto superior direito */
-        .notification {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            z-index: 9999;
-            display: none; /* Começa invisível */
-        }
-
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎁 Descubra o produto do seu concorrente</h1>
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
-            <button class="whatsapp-button" onclick="sendToWhatsApp()">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </div>
-        <div class="button-group">
-            <a href="https://pay.inexplor.com/super-comunidade" class="button footer-button">🤑 Quero Produto Validado</a>
-            <a href="https://ajuda.inexplor.com/hpx9/preciso-ajuda" class="button footer-button">😞 Preciso de Ajuda</a>
-        </div>
-    </div>
-
-    <!-- Notificação de espionagem -->
-    <div id="notification" class="notification"></div>
-
-    <script>
-        let typingTimer;
-        let notificationCount = 0;
-        const productInput = document.getElementById('productInput');
-        const notification = document.getElementById('notification');
-        
-        // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
-        setInterval(() => {
-            notificationCount++;
-            notification.textContent = `${notificationCount} pessoa(s) espionando agora!`;
-            notification.style.display = 'block';
-            
-            // A notificação desaparece após 5 segundos
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 5000);
-        }, 60000); // a cada 1 minuto
-
-        // Função para validar o formato do código e enviar para WhatsApp
-        function sendToWhatsApp() {
-            const productCode = productInput.value.trim();
-            if (productCode && /^HP\d{10}$/.test(productCode)) {
-                const url = https://wa.me/5543991228540?text=${encodeURIComponent(Espione o Produto: ${productCode})};
-                window.open(url, '_blank');
-            } else {
-                alert("Ops! O código deve ser parecido com HP0000000000");
-            }
-        }
-
-        // Função para criar emoticons sorridentes caindo
-        function createSmiley() {
-            const smiley = document.createElement('span');
-            smiley.className = 'smiley';
-            smiley.textContent = '🤑';
-            document.body.appendChild(smiley);
-
-            // Coloca o smiley em posições aleatórias no topo da tela
-            smiley.style.left = Math.random() * window.innerWidth + 'px';
-
-            // Remove o smiley quando ele sair da tela
-            setTimeout(() => {
-                smiley.remove();
-            }, 1000);
-        }
-
-        // Monitorar quando o usuário começa a digitar
-        productInput.addEventListener('input', () => {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => {
-                // Se o usuário parar de digitar, parar de cair os emoticons
-                if (productInput.value.length > 0) {
-                    createSmiley();
-                }
-            }, 200);
-
-            // Continuar criando emoticons enquanto o usuário digitar
-            if (productInput.value.length > 0) {
-                createSmiley();
-            }
-        });
-    </script>
-</body>
-</html>
+  if (deviceType === 'mobile') {
+    window.location.href = "https://hpx9.inexplor.com/dm";
+  } else if (deviceType === 'desktop') {
+    window.location.href = "https://hpx9.inexplor.com/pc";
+  }
+</script>
