@@ -43,6 +43,17 @@
             }
         }
 
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(300px);
+                opacity: 0;
+            }
+        }
+
         .container {
             background-color: #ffffff;
             padding: 40px;
@@ -172,7 +183,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <h1>Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
             <input type="text" id="productInput" placeholder="Digite o código do produto">
@@ -193,6 +204,7 @@
         let typingTimer;
         let notificationCount = 0;
         const productInput = document.getElementById('productInput');
+        const container = document.getElementById('container');
         const notification = document.getElementById('notification');
         
         // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
@@ -214,8 +226,13 @@
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`HP${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
-                alert("Erro: O código deve ser semelhante a HP0787658940!");
+                triggerFallEffect();
             }
+        }
+
+        // Função para criar o efeito de queda
+        function triggerFallEffect() {
+            container.style.animation = 'fall 1s forwards'; // Aciona o efeito de queda para os elementos
         }
 
         // Função para criar emoticons sorridentes caindo
