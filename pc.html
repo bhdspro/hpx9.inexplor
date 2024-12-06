@@ -8,14 +8,14 @@
     <style>
         body {
             font-family: 'Canva Sans', sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f0f4f8, #dbe5ec); /* Gradiente sutil */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        
+
         .container {
             background-color: #ffffff;
             padding: 40px;
@@ -35,9 +35,39 @@
             padding: 10px;
             border-radius: 25px;
             border: 2px solid #ccc;
-            width: 100%;
-            margin: 20px 0;
+            width: 80%;
             font-size: 16px;
+        }
+
+        .whatsapp-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #3700b3;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            width: 48%;
         }
 
         .button {
@@ -50,58 +80,29 @@
             border: none;
             transition: background-color 0.3s;
             display: inline-block;
-            text-decoration: none;
+            text-align: center;
         }
 
         .button:hover {
             background-color: #3700b3;
         }
 
-        .button-right {
-            margin-left: 10px;
-        }
-
-        .button-group {
-            margin-top: 20px;
-        }
-
-        .button-group a {
-            text-decoration: none;
-        }
-
         .footer-button {
             display: inline-block;
-            width: 45%;
+            width: 48%;
         }
 
         .footer-button:first-child {
             margin-right: 10px;
-        }
-
-        .whatsapp-button {
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .whatsapp-button img {
-            margin-left: 10px;
-        }
-
-        .button-group a,
-        .whatsapp-button a {
-            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Descubra o produto do seu concorrente</h1>
-        <input type="text" id="productInput" placeholder="Digite o código do produto">
-        <div>
-            <button class="button whatsapp-button" onclick="sendToWhatsApp()">
-                Enviar para WhatsApp
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/WhatsApp_icon.png" alt="WhatsApp" width="24" height="24">
-            </button>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <input type="text" id="productInput" placeholder="Digite o código do produto">
+            <button class="whatsapp-button" onclick="sendToWhatsApp()">➡</button>
         </div>
         <div class="button-group">
             <a href="https://inexplor.com" class="button footer-button">Produto Oculto</a>
