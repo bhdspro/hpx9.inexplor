@@ -212,7 +212,7 @@
         function sendToWhatsApp() {
             const productCode = document.getElementById('productInput').value.trim();
             // Alteração para aceitar 10 ou mais dígitos após "HP"
-            if (productCode && /^HP\d{6}$/.test(productCode)) {
+            if (productCode && /^HP\d+/.test(productCode)) {
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
