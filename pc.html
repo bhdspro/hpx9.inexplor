@@ -110,6 +110,36 @@
         .whatsapp-button i {
             font-size: 30px;
         }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            width: 48%;
+        }
+
+        .button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #3700b3;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -121,6 +151,10 @@
             <button class="whatsapp-button" onclick="sendToWhatsApp()">
                 <i class="material-icons">arrow_forward</i>
             </button>
+        </div>
+        <div class="button-group">
+            <a href="https://inexplor.com" class="button footer-button">Produto Oculto</a>
+            <a href="https://meuwhatsapp.com/3932" class="button footer-button">Preciso de Ajuda</a>
         </div>
     </div>
 
@@ -177,6 +211,16 @@
         }
 
         animate();
+
+        function sendToWhatsApp() {
+            const productCode = document.getElementById('productInput').value.trim();
+            if (productCode) {
+                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(productCode)}`;
+                window.open(url, '_blank');
+            } else {
+                alert("Por favor, insira um código válido.");
+            }
+        }
     </script>
 </body>
 </html>
