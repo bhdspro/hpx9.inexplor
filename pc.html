@@ -23,24 +23,14 @@
         }
 
         @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .container {
@@ -141,6 +131,19 @@
             margin-right: 10px;
         }
 
+        .smiley {
+            position: absolute;
+            font-size: 30px;
+            color: yellow;
+            animation: drop 1s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drop {
+            0% { transform: translateY(-50px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
         .popup {
             display: none;
             position: fixed;
@@ -174,6 +177,20 @@
         .popup button:hover {
             background-color: #3700b3;
         }
+
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 9999;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -191,6 +208,9 @@
         </div>
     </div>
 
+    <!-- Notificação de espionagem -->
+    <div id="notification" class="notification"></div>
+
     <!-- Popup -->
     <div id="popup" class="popup">
         <div class="popup-content">
@@ -201,17 +221,36 @@
     </div>
 
     <script>
+        let typingTimer;
+        let notificationCount = 0;
+        const productInput = document.getElementById('productInput');
+        const notification = document.getElementById('notification');
+        
+        // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
+        setInterval(() => {
+            notificationCount++;
+            notification.textContent = `${notificationCount} pessoa(s) espionando agora!`;
+            notification.style.display = 'block';
+            
+            // A notificação desaparece após 5 segundos
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }, 60000); // a cada 1 minuto
+
+        // Função para mostrar o popup
         function showPopup() {
             document.getElementById('popup').style.display = 'flex';
         }
 
+        // Função para redirecionar para a página do Espião
         function redirectToEspiao() {
             window.location.href = "https://pay.inexplor.com/espiao";
         }
 
+        // Função para enviar para o WhatsApp
         function sendToWhatsApp() {
-            const productCode = document.getElementById('productInput').value.trim();
-            // Alteração para verificar se começa com "HP" e aceita qualquer número de dígitos
+            const productCode = productInput.value.trim();
             if (productCode && /^HP\d+/.test(productCode)) {
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
                 window.open(url, '_blank');
@@ -220,6 +259,30 @@
             }
             document.getElementById('popup').style.display = 'none'; // Fecha o popup após enviar
         }
+
+        // Função para criar emoticons sorridentes caindo
+        function createSmiley() {
+            const smiley = document.createElement('span');
+            smiley.className = 'smiley';
+            smiley.textContent = '🤑';
+            document.body.appendChild(smiley);
+
+            // Posição inicial aleatória
+            const startPosition = Math.random() * window.innerWidth;
+            smiley.style.left = `${startPosition}px`;
+
+            // Animação de queda
+            const fallDuration = Math.random() * 3 + 2; // Tempo aleatório de queda entre 2 e 5 segundos
+            smiley.style.animationDuration = `${fallDuration}s`;
+
+            // Remover o emoticon após a animação
+            setTimeout(() => {
+                smiley.remove();
+            }, fallDuration * 1000);
+        }
+
+        // Criar emoticons caindo a cada 0.5 segundos
+        setInterval(createSmiley, 500);
     </script>
 </body>
 </html>
