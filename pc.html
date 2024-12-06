@@ -38,6 +38,12 @@
             border: 2px solid #ccc;
             width: 80%;
             font-size: 16px;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #6200ea;
+            outline: none;
         }
 
         .whatsapp-button {
@@ -51,13 +57,14 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s ease;
             font-size: 20px;
             margin-left: 10px;
         }
 
         .whatsapp-button:hover {
             background-color: #3700b3;
+            transform: scale(1.1);
         }
 
         .button-group {
@@ -79,13 +86,14 @@
             background-color: #6200ea;
             color: white;
             border: none;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s ease;
             display: inline-block;
             text-align: center;
         }
 
         .button:hover {
             background-color: #3700b3;
+            transform: scale(1.05);
         }
 
         .footer-button {
@@ -96,6 +104,7 @@
         .footer-button:first-child {
             margin-right: 10px;
         }
+
     </style>
 </head>
 <body>
