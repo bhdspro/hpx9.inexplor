@@ -20,17 +20,28 @@
             opacity: 0;
             animation: fadeIn 2s forwards;
             overflow: hidden;
+            position: relative;
         }
 
         @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .container {
@@ -131,19 +142,6 @@
             margin-right: 10px;
         }
 
-        .smiley {
-            position: absolute;
-            font-size: 30px;
-            color: yellow;
-            animation: drop 1s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes drop {
-            0% { transform: translateY(-50px); opacity: 1; }
-            100% { transform: translateY(100px); opacity: 0; }
-        }
-
         .popup {
             display: none;
             position: fixed;
@@ -178,26 +176,75 @@
             background-color: #3700b3;
         }
 
-        .notification {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
-            color: black;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            z-index: 9999;
-            display: none;
+        /* Efeito de emoticons caindo */
+        .falling-emojis {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
+        .falling-emojis .emoji {
+            font-size: 30px;
+            animation: fall 5s infinite;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -30px;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Emoticons caindo de forma animada com delay*/
+        .falling-emojis .emoji:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .falling-emojis .emoji:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .falling-emojis .emoji:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .falling-emojis .emoji:nth-child(4) {
+            animation-delay: 3s;
+        }
+
+        .falling-emojis .emoji:nth-child(5) {
+            animation-delay: 4s;
+        }
     </style>
 </head>
 <body>
+    <!-- Efeito de emoticons caindo -->
+    <div id="falling-emojis" class="falling-emojis">
+        <span class="emoji">🎉</span>
+        <span class="emoji">🎁</span>
+        <span class="emoji">💥</span>
+        <span class="emoji">🎈</span>
+        <span class="emoji">✨</span>
+    </div>
+
     <div class="container">
         <h1>🎁 Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
-            <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
+            <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842" oninput="startFallingEmojis()">
             <button class="whatsapp-button" onclick="showPopup()">
                 <i class="material-icons">arrow_forward</i>
             </button>
@@ -207,9 +254,6 @@
             <a href="https://ajuda.inexplor.com/hpx9/preciso-ajuda" class="button footer-button">😞 Preciso de Ajuda</a>
         </div>
     </div>
-
-    <!-- Notificação de espionagem -->
-    <div id="notification" class="notification"></div>
 
     <!-- Popup -->
     <div id="popup" class="popup">
@@ -221,77 +265,36 @@
     </div>
 
     <script>
-        let typingTimer;
-        let notificationCount = 0;
-        const productInput = document.getElementById('productInput');
-        const notification = document.getElementById('notification');
-        let emoticonInterval;
+        let emojiInterval;
 
-        // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
-        setInterval(() => {
-            notificationCount++;
-            notification.textContent = `${notificationCount} pessoa(s) espionando agora!`;
-            notification.style.display = 'block';
-            
-            // A notificação desaparece após 5 segundos
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 5000);
-        }, 60000); // a cada 1 minuto
+        function startFallingEmojis() {
+            const input = document.getElementById('productInput').value.trim();
+            const fallingEmojis = document.getElementById('falling-emojis');
 
-        // Função para mostrar o popup
+            // Se houver algo digitado, faz os emoticons caírem
+            if (input) {
+                fallingEmojis.style.opacity = 1;
+            } else {
+                fallingEmojis.style.opacity = 0;
+                clearInterval(emojiInterval); // Para o efeito de emoticons
+            }
+        }
+
         function showPopup() {
             document.getElementById('popup').style.display = 'flex';
         }
 
-        // Função para redirecionar para a página do Espião
         function redirectToEspiao() {
             window.location.href = "https://pay.inexplor.com/espiao";
         }
 
-        // Função para enviar para o WhatsApp
         function sendToWhatsApp() {
-            const productCode = productInput.value.trim();
+            const productCode = document.getElementById('productInput').value.trim();
             if (productCode && /^HP\d+/.test(productCode)) {
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
                 window.open(url, '_blank');
-            } else {
-                alert("Ops! O código deve começar com HP e ser seguido de números.");
             }
-            document.getElementById('popup').style.display = 'none'; // Fecha o popup após enviar
         }
-
-        // Função para criar emoticons sorridentes caindo
-        function createSmiley() {
-            const smiley = document.createElement('span');
-            smiley.className = 'smiley';
-            smiley.textContent = '🤑';
-            document.body.appendChild(smiley);
-
-            // Posição inicial aleatória
-            const startPosition = Math.random() * window.innerWidth;
-            smiley.style.left = `${startPosition}px`;
-
-            // Animação de queda
-            const fallDuration = Math.random() * 3 + 2; // Tempo aleatório de queda entre 2 e 5 segundos
-            smiley.style.animationDuration = `${fallDuration}s`;
-
-            // Remover o emoticon após a animação
-            setTimeout(() => {
-                smiley.remove();
-            }, fallDuration * 1000);
-        }
-
-        // Função para iniciar/pausar os emoticons ao digitar
-        productInput.addEventListener('input', () => {
-            if (productInput.value.length > 0) {
-                // Iniciar os emoticons caindo
-                emoticonInterval = setInterval(createSmiley, 500);
-            } else {
-                // Parar os emoticons
-                clearInterval(emoticonInterval);
-            }
-        });
     </script>
 </body>
 </html>
