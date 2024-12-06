@@ -43,13 +43,14 @@
             }
         }
 
-        @keyframes fall {
+        /* Efeito de gravidade - elementos caindo com movimento suave */
+        @keyframes gravityFall {
             0% {
                 transform: translateY(0);
                 opacity: 1;
             }
             100% {
-                transform: translateY(300px);
+                transform: translateY(150px);
                 opacity: 0;
             }
         }
@@ -226,13 +227,17 @@
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`HP${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
-                triggerFallEffect();
+                triggerGravityFallEffect();
             }
         }
 
-        // Função para criar o efeito de queda
-        function triggerFallEffect() {
-            container.style.animation = 'fall 1s forwards'; // Aciona o efeito de queda para os elementos
+        // Função para criar o efeito de gravidade (queda suave)
+        function triggerGravityFallEffect() {
+            // Aplica a animação de queda a todos os elementos dentro da .container
+            const elements = container.querySelectorAll('*');
+            elements.forEach(element => {
+                element.style.animation = 'gravityFall 1s forwards';
+            });
         }
 
         // Função para criar emoticons sorridentes caindo
