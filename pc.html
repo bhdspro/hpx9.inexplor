@@ -17,9 +17,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
             overflow: hidden;
+            position: relative;
         }
 
         @keyframes gradient {
@@ -43,18 +42,6 @@
             }
         }
 
-        /* Efeito de gravidade - elementos caindo com movimento suave */
-        @keyframes gravityFall {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(150px);
-                opacity: 0;
-            }
-        }
-
         .container {
             background-color: #ffffff;
             padding: 40px;
@@ -63,7 +50,6 @@
             text-align: center;
             width: 100%;
             max-width: 500px;
-            animation: fadeIn 1s ease-out;
             position: relative;
         }
 
@@ -161,13 +147,11 @@
             pointer-events: none;
         }
 
-        /* Adiciona animação de queda para os emoticons */
         @keyframes drop {
             0% { transform: translateY(-50px); opacity: 1; }
             100% { transform: translateY(100px); opacity: 0; }
         }
 
-        /* Estilo da notificação no canto superior direito */
         .notification {
             position: fixed;
             top: 10px;
@@ -178,9 +162,35 @@
             border-radius: 5px;
             font-size: 16px;
             z-index: 9999;
-            display: none; /* Começa invisível */
+            display: none;
         }
 
+        /* Animação de quebra - elementos caindo e quebrando */
+        @keyframes breakEffect {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50px) scale(1.2);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(200px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Estilo dos fragmentos quebrados */
+        .broken-piece {
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            width: 20px;
+            height: 20px;
+            animation: breakEffect 2s ease forwards;
+        }
     </style>
 </head>
 <body>
@@ -207,13 +217,13 @@
         const productInput = document.getElementById('productInput');
         const container = document.getElementById('container');
         const notification = document.getElementById('notification');
-        
+
         // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
         setInterval(() => {
             notificationCount++;
             notification.textContent = `${notificationCount} pessoas espionando agora!`;
             notification.style.display = 'block';
-            
+
             // A notificação desaparece após 5 segundos
             setTimeout(() => {
                 notification.style.display = 'none';
@@ -227,33 +237,31 @@
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`HP${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
-                triggerGravityFallEffect();
+                triggerBreakEffect();
             }
         }
 
-        // Função para criar o efeito de gravidade (queda suave)
-        function triggerGravityFallEffect() {
-            // Aplica a animação de queda a todos os elementos dentro da .container
+        // Função para criar o efeito de "quebrar" os elementos
+        function triggerBreakEffect() {
+            // Cria pedaços quebrados para os elementos
             const elements = container.querySelectorAll('*');
             elements.forEach(element => {
-                element.style.animation = 'gravityFall 1s forwards';
+                const rect = element.getBoundingClientRect();
+                const pieceCount = 10;
+
+                for (let i = 0; i < pieceCount; i++) {
+                    const brokenPiece = document.createElement('div');
+                    brokenPiece.classList.add('broken-piece');
+                    brokenPiece.style.top = `${rect.top + window.scrollY}px`;
+                    brokenPiece.style.left = `${rect.left + Math.random() * rect.width}px`;
+                    container.appendChild(brokenPiece);
+                }
+
+                // Remove o elemento original após 1 segundo
+                setTimeout(() => {
+                    element.style.opacity = 0;
+                }, 500);
             });
-        }
-
-        // Função para criar emoticons sorridentes caindo
-        function createSmiley() {
-            const smiley = document.createElement('span');
-            smiley.className = 'smiley';
-            smiley.textContent = '😊';
-            document.body.appendChild(smiley);
-
-            // Coloca o smiley em posições aleatórias no topo da tela
-            smiley.style.left = Math.random() * window.innerWidth + 'px';
-
-            // Remove o smiley quando ele sair da tela
-            setTimeout(() => {
-                smiley.remove();
-            }, 1000);
         }
 
         // Monitorar quando o usuário começa a digitar
@@ -271,6 +279,22 @@
                 createSmiley();
             }
         });
+
+        // Função para criar emoticons sorridentes caindo
+        function createSmiley() {
+            const smiley = document.createElement('span');
+            smiley.className = 'smiley';
+            smiley.textContent = '😊';
+            document.body.appendChild(smiley);
+
+            // Coloca o smiley em posições aleatórias no topo da tela
+            smiley.style.left = Math.random() * window.innerWidth + 'px';
+
+            // Remove o smiley quando ele sair da tela
+            setTimeout(() => {
+                smiley.remove();
+            }, 1000);
+        }
     </script>
 </body>
 </html>
