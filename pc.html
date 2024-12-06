@@ -3,74 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produto Concorrente - Espião</title>
+    <title>Produto Concorrente</title>
     <link href="https://fonts.googleapis.com/css2?family=Canva+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
             font-family: 'Canva Sans', sans-serif;
-            background-color: black;
-            overflow: hidden;
-            margin: 0;
+            background: linear-gradient(45deg, #6200ea, #3700b3, #018786);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            position: relative;
-            color: #fff;
+            margin: 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            overflow: hidden;
         }
 
-        .binary-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://i.imgur.com/1sBO9Rh.png') repeat;
-            opacity: 0.1;
-            z-index: -1;
-            animation: scrollBinary 1s linear infinite;
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
-        @keyframes scrollBinary {
+        @keyframes fadeIn {
             from {
-                transform: translateY(0);
+                opacity: 0;
             }
             to {
-                transform: translateY(100%);
+                opacity: 1;
             }
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #ffffff;
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
             max-width: 500px;
+            animation: fadeIn 1s ease-out;
             position: relative;
-            z-index: 1;
         }
 
         h1 {
             font-size: 24px;
-            color: #00ff00;
-            font-weight: bold;
-            text-shadow: 0px 0px 10px #00ff00;
+            color: #333;
+            animation: fadeIn 2s ease-out;
         }
 
         input[type="text"] {
             padding: 10px;
             border-radius: 25px;
-            border: 2px solid #00ff00;
+            border: 2px solid #ccc;
             width: 80%;
             font-size: 16px;
-            color: #00ff00;
-            background-color: transparent;
             transition: border 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         input[type="text"]:focus {
-            border-color: #3700b3;
+            border-color: #6200ea;
             outline: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -79,7 +81,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: #3700b3;
+            background-color: #6200ea;
             color: white;
             border: none;
             display: inline-flex;
@@ -92,7 +94,7 @@
         }
 
         .whatsapp-button:hover {
-            background-color: #6200ea;
+            background-color: #3700b3;
             transform: scale(1.1);
         }
 
@@ -139,10 +141,23 @@
             margin-right: 10px;
         }
 
+        .smiley {
+            position: absolute;
+            font-size: 30px;
+            color: yellow;
+            animation: drop 1s infinite;
+            pointer-events: none;
+        }
+
+        /* Adiciona animação de queda para os emoticons */
+        @keyframes drop {
+            0% { transform: translateY(-50px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
-    <div class="binary-background"></div>
     <div class="container">
         <h1>Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
@@ -158,8 +173,19 @@
     </div>
 
     <script>
+        let typingTimer;
+        let notificationCount = 0;
+        const productInput = document.getElementById('productInput');
+        
+        // Função para mostrar notificação "x pessoas espionando agora!"
+        setInterval(() => {
+            notificationCount++;
+            alert(`${notificationCount} pessoas espionando agora!`);
+        }, 60000); // a cada 1 minuto
+
+        // Função para validar o formato do código e enviar para WhatsApp
         function sendToWhatsApp() {
-            const productCode = document.getElementById('productInput').value.trim();
+            const productCode = productInput.value.trim();
             if (productCode && /^HP\d{10}$/.test(productCode)) {
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`HP${productCode}`)}`;
                 window.open(url, '_blank');
@@ -167,6 +193,38 @@
                 alert("Erro: O código deve ser semelhante a HP0787658940!");
             }
         }
+
+        // Função para criar emoticons sorridentes caindo
+        function createSmiley() {
+            const smiley = document.createElement('span');
+            smiley.className = 'smiley';
+            smiley.textContent = '😊';
+            document.body.appendChild(smiley);
+
+            // Coloca o smiley em posições aleatórias no topo da tela
+            smiley.style.left = Math.random() * window.innerWidth + 'px';
+
+            // Remove o smiley quando ele sair da tela
+            setTimeout(() => {
+                smiley.remove();
+            }, 1000);
+        }
+
+        // Monitorar quando o usuário começa a digitar
+        productInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                // Se o usuário parar de digitar, parar de cair os emoticons
+                if (productInput.value.length > 0) {
+                    createSmiley();
+                }
+            }, 200);
+
+            // Continuar criando emoticons enquanto o usuário digitar
+            if (productInput.value.length > 0) {
+                createSmiley();
+            }
+        });
     </script>
 </body>
 </html>
