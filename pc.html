@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: 'Canva Sans', sans-serif;
-            background: linear-gradient(135deg, #f0f4f8, #dbe5ec); /* Gradiente sutil */
+            background: url('https://www.example.com/pattern.svg');
+            background-size: 100px 100px; /* Ajuste o tamanho do padrão */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,107 +21,4 @@
             background-color: #ffffff;
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #333;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            border-radius: 25px;
-            border: 2px solid #ccc;
-            width: 80%;
-            font-size: 16px;
-        }
-
-        .whatsapp-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #6200ea;
-            color: white;
-            border: none;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 20px;
-            margin-left: 10px;
-        }
-
-        .whatsapp-button:hover {
-            background-color: #3700b3;
-        }
-
-        .button-group {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .button-group a {
-            text-decoration: none;
-            width: 48%;
-        }
-
-        .button {
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            background-color: #6200ea;
-            color: white;
-            border: none;
-            transition: background-color 0.3s;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .button:hover {
-            background-color: #3700b3;
-        }
-
-        .footer-button {
-            display: inline-block;
-            width: 48%;
-        }
-
-        .footer-button:first-child {
-            margin-right: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Descubra o produto do seu concorrente</h1>
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <input type="text" id="productInput" placeholder="Digite o código do produto">
-            <button class="whatsapp-button" onclick="sendToWhatsApp()">➡</button>
-        </div>
-        <div class="button-group">
-            <a href="https://inexplor.com" class="button footer-button">Produto Oculto</a>
-            <a href="https://meuwhatsapp.com/3932" class="button footer-button">Preciso de Ajuda</a>
-        </div>
-    </div>
-
-    <script>
-        function sendToWhatsApp() {
-            const productCode = document.getElementById('productInput').value.trim();
-            if (productCode) {
-                const message = `HP${productCode}`;
-                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(message)}`;
-                window.open(url, '_blank');
-            } else {
-                alert('Por favor, insira um código de produto.');
-            }
-        }
-    </script>
-</body>
-</html>
+            box
