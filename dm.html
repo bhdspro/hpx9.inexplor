@@ -90,7 +90,7 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s ease;
             font-size: 20px;
-            margin-top: 10px; /* Espaçamento entre o botão e o campo de texto */
+            margin-left: 10px;
         }
 
         .whatsapp-button:hover {
@@ -105,14 +105,12 @@
         .button-group {
             margin-top: 20px;
             display: flex;
-            flex-direction: column; /* Botões um embaixo do outro */
-            align-items: center; /* Centralizar */
+            flex-direction: column; /* Alinhando os botões um embaixo do outro */
             gap: 10px; /* Espaçamento entre os botões */
         }
 
         .button-group a {
             text-decoration: none;
-            width: 100%; /* Ocupar toda a largura disponível */
         }
 
         .button {
@@ -138,7 +136,7 @@
 <body>
     <div class="container">
         <h1>🎁 Descubra o produto do seu concorrente</h1>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div style="display: flex; justify-content: center; align-items: center;">
             <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
             <button class="whatsapp-button" onclick="sendToWhatsApp()">
                 <i class="material-icons">arrow_forward</i>
