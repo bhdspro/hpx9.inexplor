@@ -90,7 +90,7 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s ease;
             font-size: 20px;
-            margin-left: 10px;
+            margin-top: 10px; /* Espaçamento entre o botão e o campo de texto */
         }
 
         .whatsapp-button:hover {
@@ -138,7 +138,7 @@
 <body>
     <div class="container">
         <h1>🎁 Descubra o produto do seu concorrente</h1>
-        <div style="display: flex; justify-content: center; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
             <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
             <button class="whatsapp-button" onclick="sendToWhatsApp()">
                 <i class="material-icons">arrow_forward</i>
