@@ -210,11 +210,11 @@
         // Função para validar o formato do código e enviar para WhatsApp
         function sendToWhatsApp() {
             const productCode = productInput.value.trim();
-            if (productCode && /^HP\d{10}$/.test(productCode)) {
+            if (productCode && productCode.startsWith("HP")) {
                 const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
-                alert("Ops! O código deve ser parecido com HP0000000000");
+                alert("Ops! O código deve começar com 'HP'.");
             }
         }
 
