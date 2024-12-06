@@ -19,6 +19,7 @@
             margin: 0;
             opacity: 0;
             animation: fadeIn 2s forwards;
+            overflow: hidden;
         }
 
         @keyframes gradient {
@@ -51,6 +52,7 @@
             width: 100%;
             max-width: 500px;
             animation: fadeIn 1s ease-out;
+            position: relative;
         }
 
         h1 {
@@ -96,6 +98,10 @@
             transform: scale(1.1);
         }
 
+        .whatsapp-button i {
+            font-size: 30px;
+        }
+
         .button-group {
             margin-top: 20px;
             display: flex;
@@ -135,26 +141,18 @@
             margin-right: 10px;
         }
 
-        /* Redes sociais */
-        .social-buttons {
-            margin-top: 20px;
-            text-align: center;
+        .smiley {
+            position: absolute;
+            font-size: 30px;
+            color: yellow;
+            animation: drop 1s infinite;
+            pointer-events: none;
         }
 
-        .social-buttons a {
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 24px;
-            color: #6200ea;
-            transition: color 0.3s;
-        }
-
-        .social-buttons a:hover {
-            color: #3700b3;
-        }
-
-        .social-buttons .material-icons {
-            vertical-align: middle;
+        /* Adiciona animação de queda para os emoticons */
+        @keyframes drop {
+            0% { transform: translateY(-50px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
         }
 
     </style>
@@ -164,40 +162,69 @@
         <h1>Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
             <input type="text" id="productInput" placeholder="Digite o código do produto">
-            <button class="whatsapp-button" onclick="sendToWhatsApp()">➡</button>
+            <button class="whatsapp-button" onclick="sendToWhatsApp()">
+                <i class="material-icons">arrow_forward</i>
+            </button>
         </div>
         <div class="button-group">
             <a href="https://inexplor.com" class="button footer-button">Produto Oculto</a>
             <a href="https://meuwhatsapp.com/3932" class="button footer-button">Preciso de Ajuda</a>
         </div>
-        <div class="social-buttons">
-            <a href="https://facebook.com" target="_blank">
-                <i class="material-icons">facebook</i>
-            </a>
-            <a href="https://twitter.com" target="_blank">
-                <i class="material-icons">twitter</i>
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <i class="material-icons">instagram</i>
-            </a>
-        </div>
     </div>
 
     <script>
+        let typingTimer;
+        let notificationCount = 0;
+        const productInput = document.getElementById('productInput');
+        
+        // Função para mostrar notificação "x pessoas espionando agora!"
+        setInterval(() => {
+            notificationCount++;
+            alert(`${notificationCount} pessoas espionando agora!`);
+        }, 60000); // a cada 1 minuto
+
+        // Função para validar o formato do código e enviar para WhatsApp
         function sendToWhatsApp() {
-            const productCode = document.getElementById('productInput').value.trim();
-            const inputField = document.getElementById('productInput');
-            if (productCode) {
-                inputField.classList.remove('error');
-                inputField.classList.add('success');
-                const message = `HP${productCode}`;
-                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(message)}`;
+            const productCode = productInput.value.trim();
+            if (productCode && /^HP\d{10}$/.test(productCode)) {
+                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`HP${productCode}`)}`;
                 window.open(url, '_blank');
             } else {
-                inputField.classList.remove('success');
-                inputField.classList.add('error');
+                alert("Erro: O código deve ser semelhante a HP0787658940!");
             }
         }
+
+        // Função para criar emoticons sorridentes caindo
+        function createSmiley() {
+            const smiley = document.createElement('span');
+            smiley.className = 'smiley';
+            smiley.textContent = '😊';
+            document.body.appendChild(smiley);
+
+            // Coloca o smiley em posições aleatórias no topo da tela
+            smiley.style.left = Math.random() * window.innerWidth + 'px';
+
+            // Remove o smiley quando ele sair da tela
+            setTimeout(() => {
+                smiley.remove();
+            }, 1000);
+        }
+
+        // Monitorar quando o usuário começa a digitar
+        productInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                // Se o usuário parar de digitar, parar de cair os emoticons
+                if (productInput.value.length > 0) {
+                    createSmiley();
+                }
+            }, 200);
+
+            // Continuar criando emoticons enquanto o usuário digitar
+            if (productInput.value.length > 0) {
+                createSmiley();
+            }
+        });
     </script>
 </body>
 </html>
