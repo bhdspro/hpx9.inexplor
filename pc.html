@@ -225,7 +225,8 @@
         let notificationCount = 0;
         const productInput = document.getElementById('productInput');
         const notification = document.getElementById('notification');
-        
+        let emoticonInterval;
+
         // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
         setInterval(() => {
             notificationCount++;
@@ -281,8 +282,16 @@
             }, fallDuration * 1000);
         }
 
-        // Criar emoticons caindo a cada 0.5 segundos
-        setInterval(createSmiley, 500);
+        // Função para iniciar/pausar os emoticons ao digitar
+        productInput.addEventListener('input', () => {
+            if (productInput.value.length > 0) {
+                // Iniciar os emoticons caindo
+                emoticonInterval = setInterval(createSmiley, 500);
+            } else {
+                // Parar os emoticons
+                clearInterval(emoticonInterval);
+            }
+        });
     </script>
 </body>
 </html>
