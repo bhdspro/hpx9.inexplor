@@ -105,7 +105,8 @@
         .button-group {
             margin-top: 20px;
             display: flex;
-            flex-direction: column; /* Alinhando os botões um embaixo do outro */
+            flex-direction: column; /* Botões um embaixo do outro */
+            align-items: center; /* Centraliza os botões */
             gap: 10px; /* Espaçamento entre os botões */
         }
 
@@ -125,6 +126,8 @@
             display: inline-block;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: auto; /* Tamanho ajustável */
+            min-width: 200px; /* Define um limite mínimo de largura */
         }
 
         .button:hover {
