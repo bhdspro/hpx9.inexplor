@@ -105,13 +105,12 @@
         .button-group {
             margin-top: 20px;
             display: flex;
-            flex-direction: column; /* Botões um embaixo do outro */
-            align-items: center; /* Centraliza os botões */
-            gap: 10px; /* Espaçamento entre os botões */
+            flex-direction: column; /* Alterado para empilhar os botões */
         }
 
         .button-group a {
             text-decoration: none;
+            margin-bottom: 10px; /* Adicionado para espaçamento entre os botões */
         }
 
         .button {
@@ -126,14 +125,43 @@
             display: inline-block;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: auto; /* Tamanho ajustável */
-            min-width: 200px; /* Define um limite mínimo de largura */
         }
 
         .button:hover {
             background-color: #3700b3;
             transform: scale(1.05);
         }
+
+        .footer-button {
+            display: inline-block;
+        }
+
+        .smiley {
+            position: absolute;
+            font-size: 30px;
+            color: yellow;
+            animation: drop 1s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drop {
+            0% { transform: translateY(-50px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 9999;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -146,21 +174,64 @@
             </button>
         </div>
         <div class="button-group">
-            <a href="https://pay.inexplor.com/super-comunidade" class="button">🤑 Quero Produto Validado</a>
-            <a href="https://ajuda.inexplor.com/hpx9/preciso-ajuda" class="button">😞 Preciso de Ajuda</a>
+            <a href="https://pay.inexplor.com/super-comunidade" class="button footer-button">🤑 Quero Produto Validado</a>
+            <a href="https://ajuda.inexplor.com/hpx9/preciso-ajuda" class="button footer-button">😞 Preciso de Ajuda</a>
         </div>
     </div>
 
+    <div id="notification" class="notification"></div>
+
     <script>
+        let typingTimer;
+        let notificationCount = 0;
+        const productInput = document.getElementById('productInput');
+        const notification = document.getElementById('notification');
+        
+        setInterval(() => {
+            notificationCount++;
+            notification.textContent = `${notificationCount} pessoa(s) espionando agora!`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }, 60000);
+
         function sendToWhatsApp() {
-            const productInput = document.getElementById('productInput').value.trim();
-            if (productInput && /^HP\d{10}$/.test(productInput)) {
-                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productInput}`)}`;
+            const productCode = productInput.value.trim();
+            if (productCode && /^HP\d{10}$/.test(productCode)) {
+                const url = `https://wa.me/5543991228540?text=${encodeURIComponent('Espione o Produto: ' + productCode)}`;
                 window.open(url, '_blank');
             } else {
                 alert("Ops! O código deve ser parecido com HP0000000000");
             }
         }
+
+        function createSmiley() {
+            const smiley = document.createElement('span');
+            smiley.className = 'smiley';
+            smiley.textContent = '🤑';
+            document.body.appendChild(smiley);
+
+            smiley.style.left = Math.random() * window.innerWidth + 'px';
+
+            setTimeout(() => {
+                smiley.remove();
+            }, 1000);
+        }
+
+        productInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                if (productInput.value.length > 0) {
+                    createSmiley();
+                }
+            }, 200);
+
+            if (productInput.value.length > 0) {
+                createSmiley();
+            }
+        });
     </script>
 </body>
 </html>
