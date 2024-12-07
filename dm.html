@@ -111,6 +111,7 @@
             transition: background-color 0.3s, transform 0.3s ease;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
 
         .button:hover {
@@ -175,6 +176,44 @@
             right: 10px;
             font-size: 24px;
             cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            input[type="text"] {
+                width: 60%;
+            }
+
+            .whatsapp-button {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .button-group a {
+                width: 100%;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            .smiley {
+                font-size: 20px;
+            }
+
+            .popup {
+                width: 80%;
+                max-width: 320px;
+            }
         }
     </style>
 </head>
