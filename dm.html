@@ -104,13 +104,17 @@
 
         .button-group {
             margin-top: 20px;
-            text-align: center;
+            display: block;
+            text-align: center; /* Centraliza os botões */
         }
 
         .button-group a {
             text-decoration: none;
-            display: inline-block;
-            margin: 10px 0;
+            display: block;
+            margin: 10px 0; /* Espaço entre os botões */
+            width: 70%; /* Largura reduzida */
+            margin-left: auto;
+            margin-right: auto; /* Centraliza o botão */
         }
 
         .button {
@@ -178,8 +182,8 @@
             z-index: 10000;
             display: none;
             text-align: center;
-            width: 80%;
-            max-width: 400px;
+            width: 80%; /* Ajuste de largura para dispositivos móveis */
+            max-width: 500px; /* Mantém o tamanho máximo */
         }
 
         .popup .button {
@@ -193,33 +197,6 @@
             right: 10px;
             font-size: 24px;
             cursor: pointer;
-        }
-
-        /* Media Queries para dispositivos móveis */
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            input[type="text"] {
-                width: 100%;
-                font-size: 14px;
-            }
-
-            .whatsapp-button {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-
-            .popup .button {
-                width: 100%;
-            }
         }
 
     </style>
