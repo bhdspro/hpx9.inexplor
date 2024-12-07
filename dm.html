@@ -104,13 +104,13 @@
 
         .button-group {
             margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
+            display: block; /* Alterado de flex para block */
         }
 
         .button-group a {
             text-decoration: none;
-            width: 48%;
+            display: block; /* Cada botão ocupa uma linha */
+            margin: 10px 0; /* Espaço entre os botões */
         }
 
         .button {
@@ -134,11 +134,7 @@
 
         .footer-button {
             display: inline-block;
-            width: 48%;
-        }
-
-        .footer-button:first-child {
-            margin-right: 10px;
+            width: 100%;
         }
 
         .smiley {
