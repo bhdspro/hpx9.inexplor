@@ -59,6 +59,7 @@
             font-size: 16px;
             transition: border 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
         }
 
         input[type="text"]:focus {
@@ -80,7 +81,6 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s ease;
             font-size: 20px;
-            margin-left: 10px;
         }
 
         .whatsapp-button:hover {
@@ -93,6 +93,9 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
         }
 
         .button-group a {
@@ -220,7 +223,7 @@
 <body>
     <div class="container">
         <h1>🎁 Descubra o produto do seu concorrente</h1>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px;">
             <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
             <button class="whatsapp-button" onclick="openPopup()">
                 <i class="material-icons">arrow_forward</i>
@@ -276,32 +279,8 @@
         }
 
         function redirectToEspiao() {
-            window.location.href = "https://pay.inexplor.com/espiao";
+            // Redirecionar para a página do espião
         }
-
-        function createSmiley() {
-            const smiley = document.createElement('span');
-            smiley.className = 'smiley';
-            smiley.textContent = '🤑';
-            document.body.appendChild(smiley);
-            smiley.style.left = Math.random() * window.innerWidth + 'px';
-            setTimeout(() => {
-                smiley.remove();
-            }, 1000);
-        }
-
-        productInput.addEventListener('input', () => {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => {
-                if (productInput.value.length > 0) {
-                    createSmiley();
-                }
-            }, 200);
-
-            if (productInput.value.length > 0) {
-                createSmiley();
-            }
-        });
     </script>
 </body>
 </html>
