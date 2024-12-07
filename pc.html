@@ -141,6 +141,55 @@
             margin-right: 10px;
         }
 
+        /* Estilos do pop-up */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 400px;
+            position: relative;
+        }
+
+        .popup button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            margin: 10px;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .popup button:hover {
+            background-color: #3700b3;
+            transform: scale(1.05);
+        }
+
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Animação do emoticon caindo */
         .smiley {
             position: absolute;
             font-size: 30px;
@@ -149,26 +198,11 @@
             pointer-events: none;
         }
 
-        /* Adiciona animação de queda para os emoticons */
+        /* Estilo para emoticons caindo */
         @keyframes drop {
             0% { transform: translateY(-50px); opacity: 1; }
             100% { transform: translateY(100px); opacity: 0; }
         }
-
-        /* Estilo da notificação no canto superior direito */
-        .notification {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            z-index: 9999;
-            display: none; /* Começa invisível */
-        }
-
     </style>
 </head>
 <body>
@@ -176,46 +210,52 @@
         <h1>🎁 Descubra o produto do seu concorrente</h1>
         <div style="display: flex; justify-content: center; align-items: center;">
             <input type="text" id="productInput" placeholder="Digite o código de transação: HP0232392842">
-            <button class="whatsapp-button" onclick="sendToWhatsApp()">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </div>
-        <div class="button-group">
-            <a href="https://pay.inexplor.com/super-comunidade" class="button footer-button">🤑 Quero Produto Validado</a>
-            <a href="https://ajuda.inexplor.com/hpx9/preciso-ajuda" class="button footer-button">😞 Preciso de Ajuda</a>
+            <button class="whatsapp-button" onclick="showPopup()">Enviar</button>
         </div>
     </div>
 
-    <!-- Notificação de espionagem -->
-    <div id="notification" class="notification"></div>
+    <!-- Pop-up -->
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup">
+            <span class="close-btn" onclick="closePopup()">×</span>
+            <h2>Você já possui o Espião?</h2>
+            <button onclick="redirectToEspiao()">Não Tenho o Espião</button>
+            <button onclick="sendToWhatsApp()">Já Comprei o Espião</button>
+        </div>
+    </div>
 
     <script>
         let typingTimer;
         let notificationCount = 0;
         const productInput = document.getElementById('productInput');
-        const notification = document.getElementById('notification');
-        
-        // Função para mostrar notificação "x pessoas espionando agora!" no canto superior direito
-        setInterval(() => {
-            notificationCount++;
-            notification.textContent = `${notificationCount} pessoa(s) espionando agora!`;
-            notification.style.display = 'block';
-            
-            // A notificação desaparece após 5 segundos
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 5000);
-        }, 60000); // a cada 1 minuto
+        const popupOverlay = document.getElementById('popupOverlay');
 
-        // Função para validar o formato do código e enviar para WhatsApp
-        function sendToWhatsApp() {
+        // Função para mostrar o pop-up
+        function showPopup() {
             const productCode = productInput.value.trim();
             if (productCode && productCode.startsWith("HP")) {
-                const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
-                window.open(url, '_blank');
+                popupOverlay.style.display = 'flex';
             } else {
                 alert("Ops! O código deve começar com 'HP'.");
             }
+        }
+
+        // Função para fechar o pop-up
+        function closePopup() {
+            popupOverlay.style.display = 'none';
+        }
+
+        // Função para redirecionar para a página do Espião
+        function redirectToEspiao() {
+            window.location.href = "https://pay.inexplor.com/espiao";
+        }
+
+        // Função para enviar o código para o WhatsApp
+        function sendToWhatsApp() {
+            const productCode = productInput.value.trim();
+            const url = `https://wa.me/5543991228540?text=${encodeURIComponent(`Espione o Produto: ${productCode}`)}`;
+            window.open(url, '_blank');
+            closePopup();
         }
 
         // Função para criar emoticons sorridentes caindo
@@ -238,17 +278,16 @@
         productInput.addEventListener('input', () => {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(() => {
-                // Se o usuário parar de digitar, parar de cair os emoticons
+                // Se o usuário parar de digitar, continuar a animação
                 if (productInput.value.length > 0) {
                     createSmiley();
+                    notificationCount++;
                 }
-            }, 200);
-
-            // Continuar criando emoticons enquanto o usuário digitar
-            if (productInput.value.length > 0) {
-                createSmiley();
-            }
+            }, 300);  // Após 300ms sem digitação
         });
+
+        // Criar emoticons caindo na página
+        setInterval(createSmiley, 1500);
     </script>
 </body>
 </html>
